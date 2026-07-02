@@ -3,22 +3,20 @@
 #include <stdlib.h>
 #include <dirent.h>
 
-int compare(const void *a, const void *b){
-    return strcmp((char *)a, (char *)b);
-}
-
 int main(void)
 {
     FILE *rfp;
     FILE *wfp;
     DIR *dir;
     struct dirent *entry;
+
+    int file_count=0;           //파일 개수 저장
+    char file_list[100][256];   //파일명(문자열) 100개까지 저장가능한 배열 선언
     
-    char file_list[100][256];
-    int file_count = 0;
 
     dir = opendir(".");
     if (dir == NULL) return 1;
+    wfp = fopen("new_text.txt", "w"); 
 
     while ((entry = readdir(dir)) != NULL){
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) continue;
@@ -26,14 +24,12 @@ int main(void)
         
         int len = strlen(entry->d_name);
         if (len < 4 || strcmp(&entry->d_name[len - 4], ".txt") != 0) continue;
+
         strcpy(file_list[file_count], entry->d_name);
         file_count++;
     }
     closedir(dir);
 
-    qsort(file_list, file_count, sizeof(file_list[0]), compare);
-    wfp = fopen("new_text.txt", "w"); // 정렬 확인을 위해 깔끔하게 "w" 모드로 오픈!
-    if (wfp == NULL) return 1;
 
     for (int i = 0; i < file_count; i++) {
         rfp = fopen(file_list[i], "r"); // 정렬된 배열에서 순서대로 꺼내서 열기
@@ -43,11 +39,12 @@ int main(void)
                 fputs(str, wfp);
             }
             fclose(rfp);
-            printf("➡️ [%s] 순서대로 합치는 중!\n", file_list[i]); // 순서 확인용 프린트
         }
     }
     fclose(wfp);
 
-    printf("\n🎯 정렬 병합 성공! text1 -> text2 -> text3 순서로 이쁘게 들어갔습니다! 😎🏆\n");
+    printf("\n정렬 병합 성공!\n");
     return 0;
+
 }
+
