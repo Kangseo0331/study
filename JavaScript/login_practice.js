@@ -83,5 +83,5 @@ user3.addExp(13, 0.43);
 const user4 = new Admin("지인", "jiin@test.com", "admin", "secret_number");
 const user_test = new User("test", "test@test.com", "user");
 
-admin.login();
-admin.deleteUser(normal);
+Admin.login();
+Admin.deleteUser(normal);
