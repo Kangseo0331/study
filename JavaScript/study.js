@@ -1,18 +1,15 @@
-const { asyncWrapProviders } = require("async_hooks");
-const readline = require("readline");
+let logSystem;
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const isDevelopment = true;
 
-const fruits = ["apple", "banana", "orange"];
-console.log(fruits[0]);
+if (isDevelopment) {
+    logSystem = function(message) {
+        console.log("[DEBUG - ", new Date().toLocaleTimeString(),"] ", message);
+    };
+} 
 
-console.log(fruits.length);
-fruits.push("kiwi");
+else{
+    logSystem = function(message){};
+}
 
-console.log((fruits[3]));
-
-const fruitspop = fruits.pop();
-console.log(fruitspop[fruitspop.length]);
+logSystem("사용자가 버튼을 클릭함");
