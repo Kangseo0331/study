@@ -31,13 +31,13 @@ console.log(getUserId());
 
 
 
-//3. 라이브러리 환경설정 및 초기화(SDK) 예시
-function initKakaoLoginSDK(apiKey){
+//라이브러리 환경설정 및 초기화(SDK)
+function initSDK(apiKey){
     const myKey = apiKey;
 
     return {
-        login: function() {
-            console.log(mykey + "코드로 카카오 로그인 진행...");
+        login: function() {             //메서드만 있는 익명의 객체를 반환
+            console.log(myKey + "코드로 카카오 로그인 진행...");
         }
     };
 }
